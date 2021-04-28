@@ -9,6 +9,7 @@
     --accent-color:       #44CDCD;
     --red-color:          #BD0000;
     --darkgreen-color:    #137C50;
+    --shadegreen-color:   #298366;
 
     --main-font:          "Lucida Grande","Droid Sans",Arial,Helvetica,sans-serif;
     --accent-font:        "Code", Courier, serif;
@@ -189,6 +190,49 @@ h3 {
   font-family: var(--main-font);
   font-size: 16px;
 }
+.content a{
+  color: var(--darkgreen-color);
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+.content a:active{
+  color: var(--darkgreen-color);
+  background-color: var(--main-color);
+  border: 1px solid var(--darkgreen-color);
+}
+.data-key-pair {
+  width: 400px;
+  height: 30px;
+  border: 1px solid var(--accent-color);
+  padding: 3px;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  font-family: var(--accent-font);
+  font-size: 12px;
+  margin: 5px;
+}
+.data-key {
+  display: inline-block;
+  background-color: var(--shadegreen-color);
+  padding: 7px;
+}
+.data-value {
+  display: inline-block;
+  padding: 7px;
+}
+.data-value a{
+  color: var(--accent-color);
+  text-decoration: none;
+}
+.data-value a:active{
+  background-color: transparent;
+  color: var(--accent-color);
+}
+.data-value:active{
+  color: var(--accent-color);
+  background-color: var(--shadegreen-color);
+  text-decoration: none;
+}
 .content-grid {
   width: 98%;
   height: 82%;
@@ -207,8 +251,6 @@ h3 {
 }
 .viz {
   background-color: white;
-  height: 300px;
-  width: 800px;
   border: 1px solid var(--accent-color);
   display: block;
   margin: 10px;

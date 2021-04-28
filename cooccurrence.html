@@ -63,7 +63,7 @@
 
     <div class="content-grid">
       <div class="viz-col">
-        <div class='viz'></div>
+        <div class='viz' id="viz"></div>
       </div>
       <div class="desc-col">
         Test test woo
@@ -72,21 +72,32 @@
   </div>
 </body>
 
+<style>
+line {
+  stroke: #fff;
+}
+text {
+  font-size: 10px;
+}
+text.active {
+  fill: red;
+}
+</style>
 <script>
   var margin = {top: 80, right: 0, bottom: 10, left: 80},
-    width = 720,
-    height = 720;
+    width = 450,
+    height = 450,
+    labelLength = 100;
 
   var x = d3.scale.ordinal().rangeBands([0, width]),
       z = d3.scale.linear().domain([0, 4]).clamp(true),
       c = d3.scale.category10().domain(d3.range(10));
 
-  var svg = d3.select("body").append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .style("margin-left", -margin.left + "px")
+  var svg = d3.select(".viz").append("svg")
+      .attr("width", width + 200)
+      .attr("height", height + 120)
     .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      .attr("transform", "translate(" + labelLength + "," + labelLength + ")");
 
   d3.json("static/data/miserables.json", function(miserables) {
     var matrix = [],
@@ -121,7 +132,7 @@
     x.domain(orders.name);
 
     svg.append("rect")
-        .attr("class", "background")
+        .attr("fill", "#EEE")
         .attr("width", width)
         .attr("height", height);
 
@@ -206,6 +217,10 @@
     var timeout = setTimeout(function() {
       order("group");
       d3.select("#order").property("selectedIndex", 2).node().focus();
-    }, 5000);
+    }, 80);
   });
+
+  // Set viz container dimensions
+  document.getElementById("viz").style.width = (parseInt(width+labelLength+10)+"px");
+  document.getElementById("viz").style.height = (parseInt(height+labelLength+10)+"px");
 </script>

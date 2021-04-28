@@ -63,7 +63,7 @@
 
     <div class="content-grid">
       <div class="viz-col">
-        <div class='viz'></div>
+        <div class='viz' id="viz"></div>
       </div>
       <div class="desc-col">
         Test test woo
@@ -73,11 +73,11 @@
 </body>
 
 <script>
-  var w = 1000;
-  var h = 600;
+  var w = 850;
+  var h = 550;
   var linkDistance=200;
   var colors = d3.scale.category10();
-  var svg = d3.select("body").append("svg").attr({"width":w,"height":h});
+  var svg = d3.select("#viz").append("svg").attr({"width":w,"height":h});
 
   d3.json("static/data/graph.json", function (dataset) {
     var force = d3.layout.force()
@@ -197,6 +197,10 @@
         });
      });
   });
+
+  // Set viz container dimensions
+  document.getElementById("viz").style.width = (parseInt(w)+"px");
+  document.getElementById("viz").style.height = (parseInt(h)+"px");
 </script>
 
 </html>
