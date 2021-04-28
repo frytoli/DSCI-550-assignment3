@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="static/scripts/d3.layout.cloud.js"></script>
+<link rel="stylesheet" href="static/style/style.css">
+
+<head>
+    <title>DSCI 550 Assignment 3 | Word Cloud</title>
+</head>
+
+<body>
+  <div class="title">
+    <div class="title-left">
+      <div class="title-row">
+        <div class="title-cell">
+          <text class="key">course: </text><text class="value">DSCI 550</text>
+        </div>
+        <div class="title-cell">
+          <text class="key">semester: </text><text class="value">Spring 2021</text>
+        </div>
+        <div class="last-title-cell">
+          <text class="key">assignment: </text><text class="value">3</text>
+        </div>
+      </div>
+      <div class="title-row">
+        <div class="last-title-cell">
+          <text class="key">e-mail: </text><text class="value">fryt@usc.edu</text>
+        </div>
+      </div>
+    </div>
+    <div class="title-right">
+      <div class="title-row">
+        <div class="last-title-cell">
+          <text class="key">cst: </text><text class="value">Sat/May/1/2021 02:00:00 pm</text>
+        </div>
+      </div>
+      <div class="title-row">
+        <div class="last-title-cell">
+          <text class="key">pst: </text><text class="value">Sat/May/1/2021 12:00:00 pm</text>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="nav bevel">
+      <div style="margin: 2px 0px 0px 0px;">
+        <div class="nav-accent small-rec bevel"></div>
+        <div class="nav-accent small-rec bevel"></div>
+      </div>
+      <div class="row-spacer"></div>
+      <ul class="links-container brackets-title">
+        <li><a class="not-page" href="/index.html">Home</a></li>
+        <li><a class="on-page" href="#">Word Cloud</a></li>
+        <li><a class="not-page" href="#">Co-Occurrence</a></li>
+        <li><a class="not-page" href="#">Force Layout</a></li>
+      </ul>
+      <div class="row-spacer"></div>
+      <div class="nav-accent big-rec bevel"></div>
+    </div>
+
+    <h3>~$: Word Cloud <div class='blinking'></div></h3>
+
+    <div class="content-grid">
+      <div class="viz-col">
+        <div class='viz'></div>
+        <label>Select Data to Display:</label>
+        <div class='viz-select'>
+          <select>
+            <option>Select</option>
+            <option>Hello 1</option>
+            <option>Hello 2</option>
+            <option>Hello 3</option>
+            <option>Hello 4</option>
+          </select>
+        </div>
+      </div>
+      <div class="desc-col">
+        Test test woo
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+    d3.json("static/data/frequency.json", function (frequency_list) {
+      var color = d3.scale.linear()
+              .domain([0,1,2,3,4,5,6,10,15,20,100])
+              .range(["#ddd", "#ccc", "#bbb", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
+
+      d3.layout.cloud().size([800, 300])
+              .words(frequency_list)
+              .rotate(0)
+              .fontSize(function(d) { return d.size; })
+              .on("end", draw)
+              .start();
+
+      function draw(words) {
+          d3.select("body").append("svg")
+                  .attr("width", 850)
+                  .attr("height", 350)
+                  .attr("class", "wordcloud")
+                  .append("g")
+                  // without the transform, words words would get cutoff to the left and top, they would
+                  // appear outside of the SVG area
+                  .attr("transform", "translate(320,200)")
+                  .selectAll("text")
+                  .data(words)
+                  .enter().append("text")
+                  .style("font-size", function(d) { return d.size + "px"; })
+                  .style("fill", function(d, i) { return color(i); })
+                  .attr("transform", function(d) {
+                      return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                  })
+                  .text(function(d) { return d.text; });
+      }
+    });
+</script>
+
+<div style="width: 40%;">
+    <div class="legend">
+        Commonly used words are larger and slightly faded in color.  Less common words are smaller and darker.
+    </div>
+
+</div>
+
+
+</html>
