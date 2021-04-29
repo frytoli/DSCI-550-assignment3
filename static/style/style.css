@@ -311,6 +311,18 @@ display: none;
   color: var(--darkgreen-color);
   font-family: var(--accent-font);
 }
+.mag-btn {
+  width: 30px;
+  height: 30px;
+  background-color: var(--main-color);
+  padding: 3px;
+}
+.mag-btn:active {
+  width: 30px;
+  height: 30px;
+  background-color: var(--darkgreen-color);
+  padding: 3px;
+}
 .desc-col {
   display: inline-block;
   margin: 0px 0px 0px 10px;

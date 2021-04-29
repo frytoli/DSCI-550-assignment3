@@ -5,7 +5,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>DSCI 550 Assignment 3 | Co-Occurrence Graph</title>
+  <title>DSCI 550 Assignment 3 | Co-Occurrence Matrix</title>
 </head>
 
 <body>
@@ -59,11 +59,12 @@
       <div class="nav-accent big-rec bevel"></div>
     </div>
 
-    <h3>~$: Co-Occurrence Graph <div class='blinking'></div></h3>
+    <h3>~$: Co-Occurrence Matrix <div class='blinking'></div></h3>
 
     <div class="content-grid">
       <div class="viz-col">
         <div class='viz' id="viz"></div>
+        <a href="/cooccurrence-viz.html"><img class="mag-btn" src="static/images/mag.png"></img></a>
       </div>
       <div class="desc-col">
         Test test woo
@@ -76,18 +77,19 @@
 line {
   stroke: #fff;
 }
-text {
-  font-size: 10px;
+.cogrid-text {
+  font-size: 7px;
+  color: black;
 }
-text.active {
+.cogrid-text.active {
   fill: red;
 }
 </style>
 <script>
   var margin = {top: 80, right: 0, bottom: 10, left: 80},
-    width = 450,
-    height = 450,
-    labelLength = 100;
+    width = 430,
+    height = 430,
+    labelLength = 85;
 
   var x = d3.scale.ordinal().rangeBands([0, width]),
       z = d3.scale.linear().domain([0, 4]).clamp(true),
@@ -95,16 +97,16 @@ text.active {
 
   var svg = d3.select(".viz").append("svg")
       .attr("width", width + 200)
-      .attr("height", height + 120)
-    .append("g")
+      .attr("height", height + 125)
+      .append("g")
       .attr("transform", "translate(" + labelLength + "," + labelLength + ")");
 
-  d3.json("static/data/miserables.json", function(miserables) {
+  d3.json("static/data/cooccurrence.json", function(dataset) {
     var matrix = [],
-        nodes = miserables.nodes,
+        nodes = dataset.nodes,
         n = nodes.length;
 
-    // Compute index per node.
+    // Compute index per node
     nodes.forEach(function(node, i) {
       node.index = i;
       node.count = 0;
@@ -112,7 +114,7 @@ text.active {
     });
 
     // Convert links to matrix; count character occurrences.
-    miserables.links.forEach(function(link) {
+    dataset.links.forEach(function(link) {
       matrix[link.source][link.target].z += link.value;
       matrix[link.target][link.source].z += link.value;
       matrix[link.source][link.source].z += link.value;
@@ -138,7 +140,7 @@ text.active {
 
     var row = svg.selectAll(".row")
         .data(matrix)
-      .enter().append("g")
+        .enter().append("g")
         .attr("class", "row")
         .attr("transform", function(d, i) { return "translate(0," + x(i) + ")"; })
         .each(row);
@@ -147,15 +149,16 @@ text.active {
         .attr("x2", width);
 
     row.append("text")
+        .attr("class", "cogrid-text")
         .attr("x", -6)
         .attr("y", x.rangeBand() / 2)
         .attr("dy", ".32em")
         .attr("text-anchor", "end")
-        .text(function(d, i) { return nodes[i].name; });
+        .text(function(d, i) { return nodes[i].title; });
 
     var column = svg.selectAll(".column")
         .data(matrix)
-      .enter().append("g")
+        .enter().append("g")
         .attr("class", "column")
         .attr("transform", function(d, i) { return "translate(" + x(i) + ")rotate(-90)"; });
 
@@ -163,16 +166,17 @@ text.active {
         .attr("x1", -width);
 
     column.append("text")
+        .attr("class", "cogrid-text")
         .attr("x", 6)
         .attr("y", x.rangeBand() / 2)
         .attr("dy", ".32em")
         .attr("text-anchor", "start")
-        .text(function(d, i) { return nodes[i].name; });
+        .text(function(d, i) { return nodes[i].title; });
 
     function row(row) {
       var cell = d3.select(this).selectAll(".cell")
           .data(row.filter(function(d) { return d.z; }))
-        .enter().append("rect")
+          .enter().append("rect")
           .attr("class", "cell")
           .attr("x", function(d) { return x(d.x); })
           .attr("width", x.rangeBand())
@@ -217,7 +221,7 @@ text.active {
     var timeout = setTimeout(function() {
       order("group");
       d3.select("#order").property("selectedIndex", 2).node().focus();
-    }, 80);
+    }, 5000);
   });
 
   // Set viz container dimensions
