@@ -54,6 +54,8 @@
         <li><a class="on-page" href="/wordcloud.html">Word Cloud</a></li>
         <li><a class="not-page" href="/cooccurrence.html">Co-Occurrence</a></li>
         <li><a class="not-page" href="/forcelayout.html">Force Layout</a></li>
+        <li><a class="not-page" href="/calendar.html">Calendar View</a></li>
+        <li><a class="not-page" href="/barchart.html">Bar Chart</a></li>
       </ul>
       <div class="row-spacer"></div>
       <div class="nav-accent big-rec bevel"></div>
@@ -76,7 +78,9 @@
         </div>
       </div>
       <div class="desc-col">
-        Test test woo
+        The GPT-2 generated fraudulent email messages from assignment 2 were extracted from the final TSV file and visualized as five word clouds grouped by social engineering email attack type: all, malware, phishing, recon, and social engineering. Each message text was separated into a list of individual words by whitespace (using regex). The English stopword list from the NLTK (Natural Language Toolkit) library was used to filter out unnecessary words from message texts. Remaining words were counted by sighting per the groups mentioned previously, and the data was dumped to a JSON file. D3 was then implemented to read-in the JSON data and visualize it as a word cloud. The top 100 most-common words were used in all word clouds. The lighter-colored, larger-sized words depict more-common words within the text while the darker-colored, smaller-sized words depict less-common words. These images show the most common words found among the GPT-2 generated message text by all, and individual, social engineering type groups.
+        <br><br>
+        View word clouds by group using the dropdown selector below the image.
       </div>
     </div>
   </div>

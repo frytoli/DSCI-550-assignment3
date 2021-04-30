@@ -54,6 +54,8 @@
         <li><a class="not-page" href="/wordcloud.html">Word Cloud</a></li>
         <li><a class="on-page" href="/cooccurrence.html">Co-Occurrence</a></li>
         <li><a class="not-page" href="/forcelayout.html">Force Layout</a></li>
+        <li><a class="not-page" href="/calendar.html">Calendar View</a></li>
+        <li><a class="not-page" href="/barchart.html">Bar Chart</a></li>
       </ul>
       <div class="row-spacer"></div>
       <div class="nav-accent big-rec bevel"></div>
@@ -67,7 +69,15 @@
         <a href="/cooccurrence-viz.html" target="_blank"><img class="mag-btn" src="static/images/mag.png"></img></a>
       </div>
       <div class="desc-col">
-        Test test woo
+        The titles extracted from the original fraudulent email corpus were parsed from the assignment 1 TSV file, grouped by social engineering attack type (malware, phishing, recon, and social engineering), and visualized as a co-occurrence matrix. Title identification and extraction was completed in assignment 1, therefore the titles existed in the assignment 1 TSV and were simply parsed from the file, grouped by social engineering attack type, and linked/counted when more than one title was seen to exist in a message. The data was written to a JSON file. D3 was then implemented to read-in the JSON data and visualize it as a co-occurrence matrix. The matrix visualization organizes itself by social engineering attack type after 5000 milliseconds. This image depicts how commonly two titles are included in the same messages of the same attack type group.
+        <br><br>
+        Group Legend:<br>
+        &nbsp;Purple: Social Engineering<br>
+        &nbsp;Red: Phishing<br>
+        &nbsp;Green: Recon<br>
+        &nbsp;Orange: Malware<br>
+        <br>
+        Click on the magnifying glass to see a larger view of the visualization.
       </div>
     </div>
   </div>

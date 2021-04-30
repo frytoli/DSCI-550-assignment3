@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="http://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+<link rel="stylesheet" href="static/style/style.css">
+
+<head>
+  <meta charset="utf-8">
+  <title>DSCI 550 Assignment 3 | Bar Chart</title>
+</head>
+
+<body style="background-color: white; overflow: auto; padding: 10px 0px 20px 10px;">
+  <svg id="d31" width="3500" height="600"></svg>
+  <svg id="d32" width="3500" height="600"></svg>
+</body>
+
+<script>
+  var svg1 = d3.select("#d31"),
+    svg2 = d3.select("#d32"),
+    margin = 200,
+    width = svg1.attr("width") - margin,
+    height = svg1.attr("height") - margin
+
+    svg1.append("text")
+       .attr("transform", "translate(100,0)")
+       .attr("x", 135)
+       .attr("y", 40)
+       .attr("font-size", "26px")
+       .text("Golbal Unemployment Rates")
+
+    var xScale = d3.scaleBand().range([0, width]).padding(0.4),
+        yScale = d3.scaleLinear().range([height, 0]);
+
+    var g1 = svg1.append("g")
+               .attr("transform", "translate(" + 65 + "," + 10 + ")");
+
+    d3.csv("static/data/barchart.csv", function(error, data) {
+        if (error) {
+            throw error;
+        }
+
+        xScale.domain(data.map(function(d) { return d.location; }));
+        yScale.domain([0, 35]);
+
+        g1.append("g")
+         .attr("transform", "translate(0," + height + ")")
+         .call(d3.axisBottom(xScale))
+         .selectAll("text")
+         .style("text-anchor", "end")
+         .attr("dx", "-.8em")
+         .attr("dy", ".15em")
+         .attr("transform", "rotate(-65)")
+         .append("text")
+         .attr("y", height - 250)
+         .attr("x", width - 100)
+         .attr("text-anchor", "end")
+         .attr("stroke", "black")
+         .text("Location");
+
+        g1.append("g")
+         .call(d3.axisLeft(yScale).tickFormat(function(d){
+             return d + "%";
+         })
+         .ticks(10))
+         .append("text")
+         .attr("transform", "rotate(-90)")
+         .attr("y", 6)
+         .attr("dy", "-5.1em")
+         .attr("text-anchor", "end")
+         .attr("stroke", "black")
+         .text("Unemployment Rate");
+
+        g1.selectAll(".bar")
+         .data(data)
+         .enter().append("rect")
+         .attr("class", "bar")
+         .attr("x", function(d) { return xScale(d.location); })
+         .attr("y", function(d) { return yScale(d.unemployment); })
+         .attr("width", xScale.bandwidth())
+         .attr("height", function(d) { return height - yScale(d.unemployment); });
+    });
+
+      svg2.append("text")
+         .attr("transform", "translate(100,0)")
+         .attr("x", 150)
+         .attr("y", 40)
+         .attr("font-size", "26px")
+         .text("Location Mention Counts")
+
+      var xScale = d3.scaleBand().range([0, width]).padding(0.4),
+          yScale = d3.scaleLinear().range([height, 0]);
+
+      var g2 = svg2.append("g")
+                 .attr("transform", "translate(" + 65 + "," + 10 + ")");
+
+      d3.csv("static/data/barchart.csv", function(error, data) {
+          if (error) {
+              throw error;
+          }
+
+          xScale.domain(data.map(function(d) { return d.location; }));
+          yScale.domain([0, 600]);
+
+          g2.append("g")
+           .attr("transform", "translate(0," + height + ")")
+           .call(d3.axisBottom(xScale))
+           .selectAll("text")
+           .style("text-anchor", "end")
+           .attr("dx", "-.8em")
+           .attr("dy", ".15em")
+           .attr("transform", "rotate(-65)")
+           .append("text")
+           .attr("y", height - 250)
+           .attr("x", width - 100)
+           .attr("text-anchor", "end")
+           .attr("stroke", "black")
+           .text("Location");
+
+          g2.append("g")
+           .call(d3.axisLeft(yScale).tickFormat(function(d){
+               return d;
+           })
+           .ticks(10))
+           .append("text")
+           .attr("transform", "rotate(-90)")
+           .attr("y", 6)
+           .attr("dy", "-5.1em")
+           .attr("text-anchor", "end")
+           .attr("stroke", "black")
+           .text("Message Count");
+
+          g2.selectAll(".bar")
+           .data(data)
+           .enter().append("rect")
+           .attr("class", "bar")
+           .attr("x", function(d) { return xScale(d.location); })
+           .attr("y", function(d) { return yScale(d.count); })
+           .attr("width", xScale.bandwidth())
+           .attr("height", function(d) { return height - yScale(d.count); });
+      });
+</script>
+
+</html>
